@@ -1,0 +1,54 @@
+
+services:
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insighta_cli
+    environment:
+      INSIGHTA_API_URL: ${INSIGHTA_API_URL:-http://api:8000}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+    volumes:
+      - ~/.insighta:/root/.insighta
+      - ./:/app
+    networks:
+      - default
+    stdin_open: true
+    tty: true
+
+  # Include API reference - can be overridden
+  # api:
+  #   image: insighta_api:latest
+  #   container_name: insighta_api
+  #   environment:
+  #     DATABASE_URL: ${DATABASE_URL}
+  #     SECRET_KEY: ${SECRET_KEY}
+  #     DEBUG: ${DEBUG}
+  #     ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+  #   ports:
+  #     - "${API_PORT}:8000"
+  #   depends_on:
+  #     - db
+  #   profiles:
+  #     - with-api
+
+  # db:
+  #   image: postgres:15-alpine
+  #   container_name: insighta_db
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-insighta}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-insighta_password}
+  #     POSTGRES_DB: ${POSTGRES_DB:-insighta}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "${DB_PORT}:5432"
+  #   profiles:
+  #     - with-api
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: insighta_network

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "insighta_cli"
+version = "0.1.0"
+description = "Insighta Labs+ CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "click>=8.1.7",
+  "requests>=2.32.0",
+  "rich>=13.7.0"
+]
+
+[project.scripts]
+insighta = "insighta_cli.main:cli"
+
+[tool.setuptools]
+packages = ["insighta_cli"]
